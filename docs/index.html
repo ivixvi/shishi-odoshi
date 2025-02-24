@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ししおどし</title>
+    <style>
+        /* CSS for shishi-odoshi animation */
+        .shishi-odoshi {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+            background: url('shishi-odoshi.png') no-repeat center center;
+            background-size: contain;
+            animation: fillWater 5s infinite;
+        }
+
+        @keyframes fillWater {
+            0% { transform: rotate(0deg); }
+            50% { transform: rotate(15deg); }
+            100% { transform: rotate(0deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="shishi-odoshi"></div>
+    <audio id="water-fill" src="water-fill.mp3"></audio>
+    <audio id="water-overflow" src="water-overflow.mp3"></audio>
+    <audio id="kakon" src="kakon.mp3"></audio>
+
+    <script>
+        const waterFillAudio = document.getElementById('water-fill');
+        const waterOverflowAudio = document.getElementById('water-overflow');
+        const kakonAudio = document.getElementById('kakon');
+
+        function playShishiOdoshiSounds() {
+            waterFillAudio.play();
+            setTimeout(() => {
+                waterOverflowAudio.play();
+                setTimeout(() => {
+                    kakonAudio.play();
+                }, 1000); // Adjust timing as needed
+            }, 2500); // Adjust timing as needed
+        }
+
+        document.querySelector('.shishi-odoshi').addEventListener('animationiteration', playShishiOdoshiSounds);
+    </script>
+</body>
+</html>
