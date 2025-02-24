@@ -41,11 +41,11 @@
             ctx.fillStyle = 'green';
             ctx.fillRect(90, 50, 20, 100);
 
-            // Bamboo cut (right-angled triangle)
+            // Bamboo cut (right-angled triangle, inverted)
             ctx.beginPath();
             ctx.moveTo(90, 50);
             ctx.lineTo(110, 50);
-            ctx.lineTo(110, 30);
+            ctx.lineTo(90, 30);
             ctx.closePath();
             ctx.fill();
 
@@ -62,7 +62,7 @@
             let direction = 1;
             setInterval(() => {
                 angle += direction * 1;
-                if (angle >= 0 || angle <= -90) { // 0 degrees is 9 o'clock, -90 degrees is 6 o'clock
+                if (angle >= 15 || angle <= -45) { // 15 degrees is 11 o'clock, -45 degrees is 7 o'clock
                     direction *= -1;
                 }
                 drawShishiOdoshi(angle);
