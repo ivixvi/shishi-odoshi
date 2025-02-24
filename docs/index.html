@@ -58,11 +58,11 @@
         }
 
         function animateShishiOdoshi() {
-            let angle = -45; // Start at 7 o'clock
-            let direction = 1;
+            let angle = -45;
+            let direction = -1;
             setInterval(() => {
                 angle += direction * 1;
-                if (angle >= 15 || angle <= -45) { // 15 degrees is 11 o'clock, -45 degrees is 7 o'clock
+                if (angle <= -135 || angle >= -45) {
                     direction *= -1;
                 }
                 drawShishiOdoshi(angle);
