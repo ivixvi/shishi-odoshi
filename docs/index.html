@@ -61,27 +61,33 @@
             let angle = -45;
             let velocity = 0;
             let acceleration = 0.1;
+            let returnAcceleration = 0.05;
             let direction = -1;
             let frameCount = 0;
-            const waitFrames = 50; // Frames to wait at -45 and -135 degrees
+            const waitFramesAt45 = 100; // Longer wait at -45 degrees
+            const waitFramesAt135 = 50; // Frames to wait at -135 degrees
 
             function update() {
                 if (frameCount > 0) {
                     frameCount--;
                 } else {
-                    velocity += acceleration * direction;
+                    if (direction === -1) {
+                        velocity += acceleration * direction;
+                    } else {
+                        velocity += returnAcceleration * direction;
+                    }
                     angle += velocity;
 
                     if (angle <= -135) {
                         angle = -135;
                         direction *= -1;
                         velocity = 0;
-                        frameCount = waitFrames;
+                        frameCount = waitFramesAt135;
                     } else if (angle >= -45) {
                         angle = -45;
                         direction *= -1;
                         velocity = 0;
-                        frameCount = waitFrames;
+                        frameCount = waitFramesAt45;
                     }
                 }
 
