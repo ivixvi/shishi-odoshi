@@ -28,59 +28,48 @@
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
 
-        function drawShishiOdoshi() {
+        function drawShishiOdoshi(angle) {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             // Draw bamboo
+            ctx.save();
+            ctx.translate(100, 100);
+            ctx.rotate((angle * Math.PI) / 180);
+            ctx.translate(-100, -100);
+
+            // Bamboo body
             ctx.fillStyle = 'green';
             ctx.fillRect(90, 50, 20, 100);
 
-            // Draw water
-            ctx.fillStyle = 'blue';
-            ctx.fillRect(90, 150, 20, 20);
+            // Bamboo cut
+            ctx.beginPath();
+            ctx.moveTo(90, 50);
+            ctx.lineTo(110, 50);
+            ctx.lineTo(100, 30);
+            ctx.closePath();
+            ctx.fill();
+
+            // Bamboo nodes
+            ctx.fillStyle = 'darkgreen';
+            ctx.fillRect(90, 80, 20, 5);
+            ctx.fillRect(90, 110, 20, 5);
+
+            ctx.restore();
         }
 
         function animateShishiOdoshi() {
             let angle = 0;
+            let direction = 1;
             setInterval(() => {
-                angle = (angle + 1) % 360;
-                ctx.save();
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                ctx.translate(100, 100);
-                ctx.rotate((angle * Math.PI) / 180);
-                ctx.translate(-100, -100);
-                drawShishiOdoshi();
-                ctx.restore();
+                angle += direction * 1;
+                if (angle >= 15 || angle <= -15) {
+                    direction *= -1;
+                }
+                drawShishiOdoshi(angle);
             }, 50);
         }
 
         animateShishiOdoshi();
-
-        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-
-        function playSound(url) {
-            fetch(url)
-                .then(response => response.arrayBuffer())
-                .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
-                .then(audioBuffer => {
-                    const source = audioContext.createBufferSource();
-                    source.buffer = audioBuffer;
-                    source.connect(audioContext.destination);
-                    source.start();
-                });
-        }
-
-        function playShishiOdoshiSounds() {
-            playSound('water-fill.mp3');
-            setTimeout(() => {
-                playSound('water-overflow.mp3');
-                setTimeout(() => {
-                    playSound('kakon.mp3');
-                }, 1000); // Adjust timing as needed
-            }, 2500); // Adjust timing as needed
-        }
-
-        document.querySelector('.shishi-odoshi').addEventListener('animationiteration', playShishiOdoshiSounds);
     </script>
 </body>
 </html>
