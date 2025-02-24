@@ -59,14 +59,31 @@
 
         function animateShishiOdoshi() {
             let angle = -45;
+            let velocity = 0;
+            let acceleration = 0.1;
             let direction = -1;
-            setInterval(() => {
-                angle += direction * 1;
-                if (angle <= -135 || angle >= -45) {
-                    direction *= -1;
+            let frameCount = 0;
+            const waitFrames = 50; // Frames to wait at -45 and -135 degrees
+
+            function update() {
+                if (frameCount > 0) {
+                    frameCount--;
+                } else {
+                    velocity += acceleration * direction;
+                    angle += velocity;
+
+                    if (angle <= -135 || angle >= -45) {
+                        direction *= -1;
+                        velocity = 0;
+                        frameCount = waitFrames;
+                    }
                 }
+
                 drawShishiOdoshi(angle);
-            }, 50);
+                requestAnimationFrame(update);
+            }
+
+            update();
         }
 
         animateShishiOdoshi();
